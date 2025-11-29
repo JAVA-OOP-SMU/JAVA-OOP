@@ -1,6 +1,7 @@
 package weather.ui;
 
 
+import ai.service.AiSummaryService;
 import util.ConsoleUtil;
 import weather.domain.Weather;
 import weather.service.WeatherService;
@@ -12,12 +13,12 @@ import java.util.List;
  */
 public class WeatherMenu {
     private final WeatherService weatherService;
-//    private final AiSummaryService aiService;
+    private final AiSummaryService aiService;
     private Weather lastWeather;
 
-    public WeatherMenu(WeatherService weatherService/*, AiSummaryService aiService*/) {
+    public WeatherMenu(WeatherService weatherService, AiSummaryService aiService) {
         this.weatherService = weatherService;
-//        this.aiService = aiService;
+        this.aiService = aiService;
     }
 
     public void show() {
@@ -45,7 +46,7 @@ public class WeatherMenu {
 
                     case 3:
                         // 날씨 기반 AI 옷차림 추천
-//                        showOutfitRecommendation();
+                        showOutfitRecommendation();
                         break;
                     case 4:
                         return;
@@ -87,14 +88,15 @@ public class WeatherMenu {
         System.out.println();
     }
 
-//    private void showOutfitRecommendation() {
-//        if (lastWeather == null) {
-//            System.out.println("먼저 날씨를 조회해주세요!");
-//            return;
-//        }
-//
-//        System.out.println("AI 옷차림 추천");
-//        String recommendation = aiService.recommendOutfit(lastWeather);
-//        System.out.println(recommendation);
-//    }
+    private void showOutfitRecommendation() {
+        if (lastWeather == null) {
+            System.out.println("먼저 특정 지녁의 날씨를 조회해주세요!\n" +
+                               "해당 지역을 기반으로 AI가 추천을 진행합니다.");
+            return;
+        }
+
+        System.out.println("AI 옷차림 추천");
+        String recommendation = aiService.recommendOutfit(lastWeather);
+        System.out.println(recommendation);
+    }
 }

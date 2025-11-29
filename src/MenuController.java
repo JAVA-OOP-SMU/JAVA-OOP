@@ -1,5 +1,10 @@
+import ai.service.AiSummaryService;
+import crowd.service.CrowdService;
+import crowd.service.EventService;
+import crowd.ui.EventCrowdMenu;
 import location.service.LocationService;
 import location.ui.LocationMenu;
+import system.service.SystemCheckService;
 import util.ConsoleUtil;
 import weather.service.WeatherService;
 import weather.ui.WeatherMenu;
@@ -9,11 +14,15 @@ import weather.ui.WeatherMenu;
  */
 public class MenuController {
     private final WeatherMenu weatherMenu;
+    private final EventCrowdMenu eventCrowdMenu;
     private final LocationMenu locationMenu;
+    private final SystemCheckService systemCheckService;
 
-    public MenuController(WeatherService weatherService) {
-        this.weatherMenu = new WeatherMenu(weatherService);
+    public MenuController(WeatherService weatherService, EventService eventService, CrowdService crowdService, AiSummaryService aiService, SystemCheckService systemCheckService) {
+        this.weatherMenu = new WeatherMenu(weatherService, aiService);
+        this.eventCrowdMenu = new EventCrowdMenu(eventService, crowdService, aiService);
         this.locationMenu = new LocationMenu(new LocationService());
+        this.systemCheckService = systemCheckService;
     }
 
     public void start() {
@@ -41,7 +50,7 @@ public class MenuController {
                     break;
                 case 2:
                     // 행사와 유동 인구 관련 로직
-
+                    eventCrowdMenu.show();
                     break;
                 case 3:
                     // 지역 조회 로직
@@ -49,7 +58,7 @@ public class MenuController {
                     break;
                 case 4:
                     // 서비스 사용 가능 체크
-
+                    systemCheckService.checkAllSystems();
                     ConsoleUtil.pause();
                     break;
                 case 5:
