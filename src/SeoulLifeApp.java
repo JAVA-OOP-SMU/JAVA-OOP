@@ -1,3 +1,11 @@
+import ai.service.AiSummaryService;
+import crowd.api.CrowdApiClient;
+import crowd.api.EventApiClient;
+import crowd.api.impl.SeoulCrowdApiClient;
+import crowd.api.impl.SeoulEventApiClient;
+import crowd.service.CrowdService;
+import crowd.service.EventService;
+import system.service.SystemCheckService;
 import util.ApiConfig;
 import weather.api.WeatherApiClient;
 import weather.api.impl.SeoulWeatherApiClient;
@@ -25,12 +33,19 @@ public static void main(String[] args) {
 
         // API 클라이언트 초기화 (인터페이스 기반 다형성)
         WeatherApiClient weatherApiClient = new SeoulWeatherApiClient(seoulApiKey);
+        CrowdApiClient crowdApiClient = new SeoulCrowdApiClient(seoulApiKey);
+        EventApiClient eventApiClient = new SeoulEventApiClient(seoulApiKey);
 
         // 서비스 초기화
         WeatherService weatherService = new WeatherService(weatherApiClient);
+        CrowdService crowdService = new CrowdService(crowdApiClient);
+        EventService eventService = new EventService(eventApiClient);
+        AiSummaryService aiService = new AiSummaryService();
+        // 시스템 체크 서비스
+        SystemCheckService systemCheckService = new SystemCheckService(weatherService, crowdService, eventService, aiService);
 
         // 메뉴 컨트롤러 초기화 및 실행
-        MenuController menuController = new MenuController(weatherService);
+        MenuController menuController = new MenuController(weatherService, eventService, crowdService, aiService, systemCheckService);
         menuController.start();
 
     } catch (Exception e) {
