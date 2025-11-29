@@ -20,14 +20,6 @@ public class Weather {
         this.pm25 = pm25;
     }
 
-    // Getters
-    ///  주석 처리해서 커밋
-    public String getLocation() {
-        return location;
-    }
-    public String getAirQualityGrade() { return airQualityGrade; }
-    ///  주석 처리해서 커밋
-
     @Override
     public String toString() {
         return String.format(
@@ -37,5 +29,22 @@ public class Weather {
                         "초미세먼지(PM2.5): %sμg/m^3\n" + "지수결정물질: %s",
                 location, stationName, measurementTime, airQualityGrade, pm10, pm25, pollutant
         );
+    }
+
+    // Getter
+    public String getAirQualityGrade() {
+        return airQualityGrade;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getPm25() {
+        return pm25;
+    }
+
+    public String getPm10() {
+        return pm10;
     }
 }
