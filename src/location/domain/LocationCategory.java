@@ -7,6 +7,7 @@ import java.util.Map;
 
 /**
  * 서울 지역을 카테고리별로 관리하는 클래스
+ * api 이용 가이드에 존재하는 서울시 주요 120 장소 목록.xlsx 사용
  */
 public class LocationCategory {
     private static final Map<String, List<String>> CATEGORIES = new LinkedHashMap<>();
@@ -30,9 +31,9 @@ public class LocationCategory {
         heritage.add("보신각");
         heritage.add("서울 암사동 유적");
         heritage.add("창덕궁·종묘");
-        CATEGORIES.put("궁궐·문화유산", heritage);
+        CATEGORIES.put("고궁·문화유산", heritage);
 
-        // 인구밀집지역 - 역 (42개)
+        // 인구밀집지역 (46개)
         List<String> stations = new ArrayList<>();
         stations.add("가산디지털단지역");
         stations.add("강남역");
@@ -76,9 +77,13 @@ public class LocationCategory {
         stations.add("혜화역");
         stations.add("홍대입구역(2호선)");
         stations.add("회기역");
-        CATEGORIES.put("지하철역", stations);
+        stations.add("쌍문역");
+        stations.add("신정네거리역");
+        stations.add("잠실새내역");
+        stations.add("잠실역");
+        CATEGORIES.put("인구밀집지역", stations);
 
-        // 발달상권 (23개)
+        // 발달상권 (28개)
         List<String> commercial = new ArrayList<>();
         commercial.add("가락시장");
         commercial.add("가로수길");
@@ -89,7 +94,6 @@ public class LocationCategory {
         commercial.add("북촌한옥마을");
         commercial.add("서촌");
         commercial.add("성수카페거리");
-        commercial.add("쌍문역");
         commercial.add("압구정로데오거리");
         commercial.add("여의도");
         commercial.add("연남동");
@@ -103,9 +107,15 @@ public class LocationCategory {
         commercial.add("해방촌·경리단길");
         commercial.add("DDP(동대문디자인플라자)");
         commercial.add("DMC(디지털미디어시티)");
-        CATEGORIES.put("상권·시장", commercial);
+        commercial.add("북창동 먹자골목");
+        commercial.add("남대문시장");
+        commercial.add("익선동");
+        commercial.add("잠실롯데타워 일대");
+        commercial.add("송리단길·호수단길");
+        commercial.add("신촌 스타광장");
+        CATEGORIES.put("발달상권", commercial);
 
-        // 공원 (33개)
+        // 공원 (34개)
         List<String> parks = new ArrayList<>();
         parks.add("강서한강공원");
         parks.add("고척돔");
@@ -140,21 +150,8 @@ public class LocationCategory {
         parks.add("안양천");
         parks.add("여의서로");
         parks.add("올림픽공원");
+        parks.add("홍제폭포");
         CATEGORIES.put("공원", parks);
-
-        // 기타 지역 (10개)
-        List<String> others = new ArrayList<>();
-        others.add("북창동 먹자골목");
-        others.add("남대문시장");
-        others.add("익선동");
-        others.add("신정네거리역");
-        others.add("잠실새내역");
-        others.add("잠실역");
-        others.add("잠실롯데타워 일대");
-        others.add("송리단길·호수단길");
-        others.add("신촌 스타광장");
-        others.add("홍제폭포");
-        CATEGORIES.put("기타", others);
     }
 
     /**
