@@ -80,4 +80,13 @@ public class EventInfo {
         }
         return sb.toString();
     }
+
+    // getter
+    public String getTitle() {
+        return title;
+    }
+
+    public String getPlace() {
+        return place;
+    }
 }
