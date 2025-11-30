@@ -15,11 +15,53 @@ import java.nio.charset.StandardCharsets;
  */
 public class OpenAiClient {
     private static final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+
+    // 기본값 상수
+    private static final String DEFAULT_MODEL = "gpt-4o-mini";
+    private static final String DEFAULT_TEMPERATURE = "0.7";
+    private static final String DEFAULT_MAX_TOKENS = "500";
+
     private final String apiKey;
+    private final String model;
+    private final double temperature;
+    private final int maxTokens;
 
     public OpenAiClient() {
-        // .env 파일에서 OPENAI_API_KEY 읽어오기
+        // .env 파일에서 설정 읽어오기 (없으면 기본값 사용)
         this.apiKey = ApiConfig.get("OPENAI_API_KEY");
+        this.model = getConfigOrDefault("OPENAI_MODEL", DEFAULT_MODEL);
+        this.temperature = parseDouble(getConfigOrDefault("OPENAI_TEMPERATURE", DEFAULT_TEMPERATURE), 0.7);
+        this.maxTokens = parseInt(getConfigOrDefault("OPENAI_MAX_TOKENS", DEFAULT_MAX_TOKENS), 500);
+    }
+
+    /**
+     * 설정값 가져오기 (없으면 기본값 반환)
+     */
+    private String getConfigOrDefault(String key, String defaultValue) {
+        String value = ApiConfig.get(key);
+        return (value == null || value.isEmpty()) ? defaultValue : value;
+    }
+
+    /**
+     * 문자열을 double로 파싱 (실패 시 기본값)
+     */
+    private double parseDouble(String value, double defaultValue) {
+        try {
+            return Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * 문자열을 int로 파싱 (실패 시 기본값)
+     */
+    private int parseInt(String value, int defaultValue) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 
     /**
@@ -44,10 +86,13 @@ public class OpenAiClient {
         connection.setDoOutput(true);
 
         // 요청 본문 생성 (JSON 형식)
-        // gpt-4o-mini 모델 사용 (비용 효율적)
+        // .env에서 설정한 모델 사용하기 (기본값: gpt-4o-mini)
         String jsonRequest = String.format(
-            "{\"model\": \"gpt-4o-mini\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}], \"temperature\": 0.7}",
-            escapeJson(prompt)
+                "{\"model\": \"%s\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}], \"temperature\": %.1f, \"max_tokens\": %d}",
+                model,
+                escapeJson(prompt),
+                temperature,
+                maxTokens
         );
 
         // 요청 전송
