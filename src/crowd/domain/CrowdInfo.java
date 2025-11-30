@@ -36,7 +36,12 @@ public class CrowdInfo {
                 updateTime);
     }
 
+    // getter
     public String getLocation() {
         return location;
+    }
+
+    public String getCongestionLevel() {
+        return congestLevel;
     }
 }
