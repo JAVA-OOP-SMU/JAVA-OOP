@@ -50,11 +50,11 @@ public class EventCrowdMenu {
                         break;
                     case 3:
                         // AI 활동 추천
-//                        showActivityRecommendation(); -> 추후 구현
+                        showActivityRecommendation();
                         break;
                     case 4:
                         // AI 식사 메뉴 추천
-//                        showMealRecommendation(); -> 추후 구현
+                        showMealRecommendation();
                         break;
                     case 5:
                         // 돌아가기
@@ -125,7 +125,7 @@ public class EventCrowdMenu {
 
         System.out.println("AI 활동 추천");
         String recommendation = aiService.recommendActivity(lastEvents, lastCrowdInfo);
-        System.out.println(recommendation + "\n");
+        System.out.println(recommendation);
     }
 
     private void showMealRecommendation() {
@@ -137,6 +137,6 @@ public class EventCrowdMenu {
         System.out.println("=== AI 식사 메뉴 추천 ===");
         String recommendation = aiService.recommendMeal(lastCrowdInfo, lastCrowdInfo.getLocation(), LocalDateTime.now()
         );
-        System.out.println(recommendation + "\n");
+        System.out.println(recommendation);
     }
 }
